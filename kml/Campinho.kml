@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document><Folder><name>Campinho</name>
+<Schema name="Campinho" id="Campinho">
+	<SimpleField name="Name" type="string"></SimpleField>
+	<SimpleField name="Description" type="string"></SimpleField>
+	<SimpleField name="NOME" type="string"></SimpleField>
+	<SimpleField name="REGIAO_ADM" type="string"></SimpleField>
+	<SimpleField name="AREA_PLANE" type="string"></SimpleField>
+	<SimpleField name="CODBAIRRO" type="string"></SimpleField>
+	<SimpleField name="CODRA" type="int"></SimpleField>
+	<SimpleField name="CODBNUM" type="int"></SimpleField>
+	<SimpleField name="LINK" type="string"></SimpleField>
+	<SimpleField name="area" type="float"></SimpleField>
+	<SimpleField name="len" type="float"></SimpleField>
+</Schema>
+  <Placemark>
+  <Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#Campinho">
+		<SimpleData name="NOME">Campinho</SimpleData>
+		<SimpleData name="REGIAO_ADM">MADUREIRA</SimpleData>
+		<SimpleData name="AREA_PLANE">3</SimpleData>
+		<SimpleData name="CODBAIRRO">78</SimpleData>
+		<SimpleData name="CODRA">15</SimpleData>
+		<SimpleData name="CODBNUM">78</SimpleData>
+		<SimpleData name="LINK">Campinho&amp;area=78</SimpleData>
+		<SimpleData name="area">984510.456252800</SimpleData>
+		<SimpleData name="len">4818.482797354</SimpleData>
+	</SchemaData></ExtendedData>
+      <Polygon><outerBoundaryIs><LinearRing><coordinates>-43.356070027190427,-22.878902832836069 -43.355982335920451,-22.878900752862886 -43.355501434093092,-22.879225860766756 -43.355353810218425,-22.87933631749819 -43.354726535139967,-22.879659816282974 -43.354477100500048,-22.879775089704644 -43.353875636023588,-22.880075374504333 -43.353671090363541,-22.880161671355467 -43.35325542522353,-22.880345932594192 -43.352687219517342,-22.880522740021888 -43.351155088231344,-22.880990103181944 -43.350375398179963,-22.881294394417996 -43.349372756695296,-22.881715214530498 -43.348361896512685,-22.882122125458839 -43.347966317017814,-22.882224128758708 -43.34759052603151,-22.8822614944891 -43.346871050277365,-22.88232472588896 -43.346145310866902,-22.882382021204329 -43.345546723477881,-22.882434674020885 -43.34446381704872,-22.882576655234573 -43.344088235659015,-22.882596314779644 -43.342479289027978,-22.882579548161058 -43.342136220062102,-22.882546528821539 -43.341584170541331,-22.882434659083611 -43.341119198641969,-22.883225790965721 -43.340532230374841,-22.883781205316925 -43.339726521375766,-22.884298390830686 -43.339497536063057,-22.884573788557674 -43.339365813108664,-22.885458433155417 -43.33934907538449,-22.889356887501524 -43.343981860098694,-22.889266599106335 -43.35593421615684,-22.882896084935755 -43.356119833512693,-22.882803630630509 -43.356055821038041,-22.882307983162107 -43.356073317443588,-22.88190737074892 -43.356127131843891,-22.880611354787941 -43.356251505792173,-22.878732669751894 -43.356070027190427,-22.878902832836069</coordinates></LinearRing></outerBoundaryIs></Polygon>
+  </Placemark>
+</Folder></Document></kml>
