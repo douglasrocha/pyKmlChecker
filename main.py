@@ -48,6 +48,8 @@ for i in range(0, len(kml_strings)):
     doc = kml_strings[i]
     curr_file = kml_count[i]
 
+    print str(i) + " out of " + str(len(kml_strings)) + "(" + curr_file[0] + ")"
+
     tree = ElementTree.fromstring(doc)
     kmlns = tree.tag.split('}')[0][1:]
 
@@ -61,7 +63,7 @@ for i in range(0, len(kml_strings)):
             print str(i) + " out of " + str(len(list570))
 
         # Here's our poin of interest
-        p = Point(x[0], x[1])
+        p = Point(x[1], x[0])
 
         # Filter polygon elements using this lambda
         # keytree.geometry() makes a GeoJSON-like
@@ -70,6 +72,8 @@ for i in range(0, len(kml_strings)):
         hits = filter(lambda e: shape(keytree.geometry(e)).contains(p), elems)
 
         curr_file[1] += len(hits)
+    
+    print " "
 
 
 for x in kml_count:
