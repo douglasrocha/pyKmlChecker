@@ -1,47 +1,67 @@
 import MySQLdb
+import keytree
+import multiprocessing
+
+from joblib import Parallel, delayed
 from os import listdir
+from shapely.geometry import Point, shape
 from xml.etree import ElementTree
 
-import keytree
-from shapely.geometry import Point, shape
+def get_Linha(linha):
+    db = MySQLdb.Connect(host='localhost',
+                         user='root',
+                         passwd='root',
+                         db='mydatabase')
 
-kmls = listdir("./kml/")
-kml_count = []
+    cur = db.cursor()
+    cur.execute("SELECT LATITUDE, LONGITUDE FROM bus WHERE LINHA=" + linha)
 
-for x in kmls:
-    kml_count.append([x, 0])
+    list_retorno = []
+    
+    for row in cur.fetchall():
+        list_retorno.append([row[0], row[1]])
+
+    db.close()
+
+    return list_retorno
 
 
-#MySQL queries
-db = MySQLdb.Connect(host='localhost',
-                     user='root',
-                     passwd='root',
-                     db='mydatabase')
+def get_KmlDataStructure():
+    kmls = listdir("./kml/")
+    kml_count = []
 
-cur = db.cursor()
-cur.execute("SELECT LATITUDE, LONGITUDE FROM bus WHERE LINHA=570.0")
+    for x in kmls:
+        kml_count.append([x, 0])
 
-list570 = []
+    return kml_count
+    
 
-for row in cur.fetchall():
-    list570.append([row[0], row[1]])
+def get_KmlContentFromDataStructure(datastructure):
+    kml_strings = []
 
-cur.execute("SELECT LATITUDE, LONGITUDE FROM bus WHERE LINHA=583.0")
+    for x in kml_count:
+        myfile = open("./kml/" + x[0], 'r')
+        kml_strings.append(myfile.read())
+        myfile.close()
 
-list583 = []
+    return kml_strings
+    
 
-for row in cur.fetchall():
-    list583.append([row[0], row[1]])
+def get_CoordinateHitsCountOnPolygon(x):
+    p = Point(x[1], x[0])
 
-db.close()
+    hits = filter(lambda e: shape(keytree.geometry(e)).contains(p), elems)
+    return len(hits)
 
-# Reads all kml files to strings' list
-kml_strings = []
 
-for x in kml_count:
-    myfile = open("./kml/" + x[0], 'r')
-    kml_strings.append(myfile.read())
-    myfile.close()
+num_cores = multiprocessing.cpu_count()    
+
+list570 = get_Linha("570.0")
+list583 = get_Linha("583.0")
+    
+kml_count = get_KmlDataStructure()
+kml_strings = get_KmlContentFromDataStructure(kml_count)
+
 
 #Parse the KML doc
 for i in range(0, len(kml_strings)):
@@ -56,22 +76,9 @@ for i in range(0, len(kml_strings)):
     # Find all Polygon elements anywhere in the doc
     elems = tree.findall(".//{%s}Polygon" % kmlns)
 
-    for i in range(0, len(list583)):
-        x = list583[i]
+    results = Parallel(n_jobs=num_cores)(delayed(get_CoordinateHitsCountOnPolygon)(i) for i in list583)
 
-        if i % 1000 == 0:
-            print str(i) + " out of " + str(len(list583))
-
-        # Here's our poin of interest
-        p = Point(x[1], x[0])
-
-        # Filter polygon elements using this lambda
-        # keytree.geometry() makes a GeoJSON-like
-        # geometry object from an element and shape()
-        # makes a Shapely object of that
-        hits = filter(lambda e: shape(keytree.geometry(e)).contains(p), elems)
-
-        curr_file[1] += len(hits)
+    curr_file[1] += sum(results)
     
     print " "
 
