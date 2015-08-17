@@ -56,11 +56,11 @@ for i in range(0, len(kml_strings)):
     # Find all Polygon elements anywhere in the doc
     elems = tree.findall(".//{%s}Polygon" % kmlns)
 
-    for i in range(0, len(list570)):
-        x = list570[i]
+    for i in range(0, len(list583)):
+        x = list583[i]
 
         if i % 1000 == 0:
-            print str(i) + " out of " + str(len(list570))
+            print str(i) + " out of " + str(len(list583))
 
         # Here's our poin of interest
         p = Point(x[1], x[0])
@@ -78,4 +78,4 @@ for i in range(0, len(kml_strings)):
 
 for x in kml_count:
     if x[1] != 0:
-        print x[0] + " --> " + x[1]
+        print str(x[0]) + " --> " + str(x[1])
